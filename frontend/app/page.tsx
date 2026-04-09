@@ -4,6 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Balance } from '../components/Balance'
 import { Transfer } from '../components/Transfer'
 import { TokenList } from '../components/TokenList'
+import { TransactionHistory } from '../components/TransactionHistory'
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
       <Transfer />
 
       <TokenList />
+
+      <TransactionHistory />
     </div>
   )
 }

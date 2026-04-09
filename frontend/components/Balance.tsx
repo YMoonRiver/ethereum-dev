@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useWatchContractEvent } from 'wagmi'
 import { formatUnits } from 'viem'
-import { useReadMyTokenBalanceOf } from '../contracts/generated'
+import { useReadMyTokenBalanceOf, myTokenAbi, } from '../contracts/generated'
 import { TOKENS } from '../config/tokens'
 
 export function Balance() {
@@ -15,6 +15,24 @@ export function Balance() {
   const { data, isLoading, refetch } = useReadMyTokenBalanceOf({
     address: token.address,
     args: address ? [address] : undefined,
+    query: {
+      enabled: !!address,
+    },
+  })
+
+  useWatchContractEvent({
+    address: token.address,
+    abi: myTokenAbi,
+    eventName: 'Transfer',
+    onLogs(logs) {
+      const hit = logs.some(
+        (log) =>
+          log.args.from === address ||
+          log.args.to === address
+      )
+
+      if (hit) refetch()
+    },
   })
 
   useEffect(() => {
