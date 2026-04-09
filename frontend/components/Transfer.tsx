@@ -5,6 +5,7 @@ import { useAccount, useWaitForTransactionReceipt } from 'wagmi'
 import { parseUnits } from 'viem'
 import { TOKEN_ADDRESS } from '../constants'
 import {
+  useSimulateMyTokenTransfer,
   useWriteMyTokenTransfer,
 } from '../contracts/generated'
 
@@ -29,6 +30,8 @@ export function Transfer() {
   })
 
   const handleSend = () => {
+    if (simulateError) return
+
     writeContract({
       address: TOKEN_ADDRESS,
       args: [
@@ -37,6 +40,22 @@ export function Transfer() {
       ],
     })
   }
+
+  const { isLoading: simulating, error: simulateError, isSuccess: simulateSuccess, } =
+    useSimulateMyTokenTransfer({
+      address: TOKEN_ADDRESS,
+      args:
+        to && amount
+          ? [
+              to as `0x${string}`,
+              parseUnits(amount, 18),
+            ]
+          : undefined,
+
+      query: {
+        enabled: !!to && !!amount,
+      },
+    })
 
   useEffect(() => {
     setMounted(true)
@@ -61,10 +80,28 @@ export function Transfer() {
 
       <button
         onClick={handleSend}
-        disabled={isPending || confirming}
+        disabled={
+          simulating ||
+          isPending ||
+          confirming
+        }
       >
         Send
       </button>
+
+      {simulating && (
+        <div>Checking transaction...</div>
+      )}
+
+      {simulateSuccess && !simulateError && (
+        <div>Simulation Passed ✅</div>
+      )}
+
+      {simulateError && (
+        <div>
+          Simulation Failed ❌: {simulateError.message}
+        </div>
+      )}
 
       {isPending && <div>Waiting Wallet Confirm...</div>}
 
