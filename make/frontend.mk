@@ -1,3 +1,5 @@
+.PHONY: frontend generate-types
+
 # # ===== 导出 ABI 到 shared =====
 # export-abi:
 # 	mkdir -p $(SHARED_DIR)/abi
