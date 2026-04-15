@@ -244,3 +244,5 @@ https://cloud.walletconnect.com/
 This frontend is designed to:
 
 > Bridge smart contracts and users, turning on-chain logic into a usable product.
+
+![alt text](image.png)
