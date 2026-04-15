@@ -10,19 +10,14 @@ deploy-mytoken:
 		--private-key $(PRIVATE_KEY) \
 		--broadcast
 
-# # ===== 部署 AMM =====
-# deploy-amm:
-# 	cd $(FOUNDRY_DIR) && \
-# 	forge script script/DeployAMM.s.sol \
-# 		--rpc-url $(RPC_URL) \
-# 		--broadcast -vvvv
+# ===== 部署 Swap =====
+deploy-swap:
+	cd $(FOUNDRY_DIR) && \
+	forge script script/DeploySimpleSwap.s.sol \
+		--rpc-url $(RPC_URL) \
+		--private-key $(PRIVATE_KEY) \
+		--broadcast
 
-# # ===== 添加流动性 =====
-# add-liquidity:
-# 	cd $(FOUNDRY_DIR) && \
-# 	forge script script/AddLiquidity.s.sol \
-# 		--rpc-url $(RPC_URL) \
-# 		--broadcast -vvvv
 
 build:
 	cd foundry && forge build

@@ -5,6 +5,7 @@ import { Balance } from '../components/Balance'
 import { Transfer } from '../components/Transfer'
 import { TokenList } from '../components/TokenList'
 import { TransactionHistory } from '../components/TransactionHistory'
+import { Swap } from '../components/Swap'
 
 export default function Home() {
   return (
@@ -19,6 +20,8 @@ export default function Home() {
       <TokenList />
 
       <TransactionHistory />
+
+      <Swap />
     </div>
   )
 }
